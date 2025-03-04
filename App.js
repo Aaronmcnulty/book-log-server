@@ -4,6 +4,7 @@ const bodyParser = require('body-parser')
 const usersRouter = require("./routes/userRouter")
 const session = require('express-session');
 const passport = require('passport')
+const jwt = require('jsonwebtoken')
 
 require('./config/passport') 
 
@@ -17,14 +18,20 @@ app.use(passport.initialize());
 app.use(session({ secret: "cats", resave: false, saveUninitialized: false }));
 app.use(passport.session());
 app.use(express.urlencoded({ extended: false }));
-
+app.get('/login-success', (req,res) => {
+  const user = req.user
+  jwt.sign({user}, 'secret', (err, token) => {
+    res.json({token})
+})
+})
 
 app.post(
   "/log-in",
   passport.authenticate("local", {
-    successRedirect: "/success",
-    failureRedirect: "/fail"
+    successRedirect: "/login-success",
+    failureRedirect: "/"
   })
+ 
 );
 
 const PORT = 3000;
