@@ -6,6 +6,8 @@ async function getAllUsers(req,res){
     res.redirect("/")
 }
 
+
+
 module.exports = {
-    getAllUsers
+    getAllUsers,
 }
