@@ -14,8 +14,8 @@ datasource db {
 }
 
 model users {
-  id        Int     @id @default(autoincrement())
-  username  String  @unique
+  id        Int             @id @default(autoincrement())
+  username  String          @unique
   password  String  
   name      String?
   books     book[]
@@ -23,22 +23,22 @@ model users {
 } 
 
 model book {
-  book_id     Int     @id @default(autoincrement())
-  title       String  @unique
+  book_id     Int           @id @default(autoincrement())
+  title       String        @unique
   author      String  
   year        Int   
   description String
   pages       Int
   lists       book_list[]
-  user        users    @relation(fields: [user_id], references: [id])
-  user_id     Int     @unique
-  cover_url   String     @unique
+  user        users         @relation(fields: [user_id], references: [id])
+  user_id     Int           @unique
+  cover_url   String        @unique
 }
 
 model book_list {
-  id            Int     @id @default(autoincrement())
-  books         book[]
-  name          String  @unique
-  list_owner    users   @relation(fields: [list_owner_id], references: [id])
-  list_owner_id Int     @unique
+  id              Int       @id @default(autoincrement())
+  books           book[]
+  name            String    @unique
+  list_owner      users     @relation(fields: [list_owner_id], references: [id])
+  list_owner_id   Int       @unique
 }

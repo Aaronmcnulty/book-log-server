@@ -13,17 +13,15 @@ async function getUserByUsername(username){
             username: username
         }
     })
-
     return user
 }
 
-async function getUserById(id){
+async function findUserById(id){
     const user = await prisma.users.findUnique({
         where: {
             id: id
         }
     })
-
     return user
 }
 
@@ -31,6 +29,6 @@ async function getUserById(id){
 module.exports = {
     getUsers,
     getUserByUsername,
-    getUserById
+    findUserById,
 }
 
