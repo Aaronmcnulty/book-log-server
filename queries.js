@@ -25,10 +25,49 @@ async function findUserById(id){
     return user
 }
 
+async function createBookEntry(bookDetails){
+    const username = 1
+    const newBook = await prisma.book.create({
+        data: {
+          title: bookDetails.title,
+          author: bookDetails.author, 
+          year: parseInt(bookDetails.year),
+          description: bookDetails.description,
+          pages: parseInt(bookDetails.pages) ,
+          user_id: username, 
+          cover_url: bookDetails.coverUrl,
+          lists: {
+            connectOrCreate: {
+              where: {
+                name: 'read_books',
+                list_owner_id: 1,
+              },
+              create: {
+                name: 'read_books',
+                list_owner_id: 1,
+              },
+            },
+          },
+        }
+    })
+}
+
+async function createList(listDetails){
+    const username = 1
+    const newList = await prisma.book_list.create({
+        data:{
+            name: listDetails.name,
+            list_owner_id: username
+        }
+    })
+}
+  
 
 module.exports = {
     getUsers,
     getUserByUsername,
     findUserById,
+    createBookEntry,
+    createList,
 }
 

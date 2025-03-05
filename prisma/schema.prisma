@@ -34,7 +34,7 @@ model book {
   user_id     Int           @unique
   cover_url   String        @unique
 }
-
+ 
 model book_list {
   id              Int       @id @default(autoincrement())
   books           book[]

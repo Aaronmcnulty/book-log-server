@@ -1,10 +1,11 @@
 const queries = require("../queries")
 
-async function getUsersBooks(req,res){
-    
+async function addBookToList(req,res){
+    const bookDetails = req.body
+    await queries.createBookEntry(bookDetails)
     res.redirect("/")
 }
 
 module.exports = {
-    getUsersBooks,
+    addBookToList,
 }
