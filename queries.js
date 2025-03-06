@@ -25,16 +25,23 @@ async function findUserById(id){
     return user
 }
 
-async function createBookEntry(bookDetails){
+async function findBookByUser(bookDetails){
     const username = 1
     const usersBook = await prisma.book.findUnique({
         where: {
             title: bookDetails.title,
-            user_id: username
+            user_id: 1
         }
     })
+    console.log(usersBook)
+    return usersBook
+}
 
-    if(!usersBook){
+async function createBookEntry(bookDetails){
+    const username = 1
+    const booko = await findBookByUser(bookDetails)
+    console.log(booko)
+    if(!booko){
         const newBook = await prisma.book.create({ 
             data: {
               title: bookDetails.title,
@@ -98,6 +105,7 @@ module.exports = {
     getUsers,
     getUserByUsername,
     findUserById,
+    findBookByUser,
     createBookEntry,
     createList,
 }
