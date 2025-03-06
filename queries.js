@@ -26,6 +26,23 @@ async function getUserById(id){
     return user
 }
 
+async function updateSingleBook(bookDetails, currentTitle){
+    const userId = 1
+   const updatedBook = await prisma.book.update({
+        where:{
+            title: currentTitle,
+            user_id: userId
+        },
+        data:{
+              title: bookDetails.title,
+              author: bookDetails.author, 
+              year: parseInt(bookDetails.year),
+              description: bookDetails.description,
+              pages: parseInt(bookDetails.pages),
+        }
+    })
+}
+
 async function findBookByUser(bookDetails){
     const username = 1
     const usersBook = await prisma.book.findUnique({
@@ -38,7 +55,7 @@ async function findBookByUser(bookDetails){
     return usersBook
 }
 
-async function createBookEntry(bookDetails){
+async function addBookToList(bookDetails){
     const username = 1
     const booko = await findBookByUser(bookDetails)
     console.log(booko)
@@ -92,7 +109,8 @@ async function createBookEntry(bookDetails){
     
 }
 
-async function createList(listDetails, userId){
+async function createList(listDetails){
+    const userId = 1
     const newList = await prisma.book_list.create({
         data:{
             name: listDetails.name,
@@ -101,20 +119,17 @@ async function createList(listDetails, userId){
     })
 }
 
-async function getListById(listDetails, userId) {
-
+async function getListById(listDetails) {
+    const userId = 1
     const listBooks = await prisma.book_list.findUnique({
         where: {
             list_owner_id: userId,
             name: listDetails.name
         },
         select: {
-            books: {
-                select: {
-                    title: true,
-                    book_id: true,
-                }
-            }
+            books: 
+                true
+            
         }
     })
     return listBooks
@@ -125,8 +140,9 @@ module.exports = {
     getUserByUsername,
     getUserById,
     findBookByUser,
-    createBookEntry,
+    addBookToList,
     createList,
-    getListById
+    getListById,
+    updateSingleBook
 }
 

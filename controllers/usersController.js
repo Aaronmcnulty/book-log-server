@@ -7,7 +7,7 @@ async function getAllUsers(req,res){
 }
 
 async function getuserByUsername(req, res){
-    const username = req.body.username
+    // const username = req.body.username
     console.log(username)
     const user = await queries.getUserByUsername(username)
     console.log(user) 
@@ -16,7 +16,7 @@ async function getuserByUsername(req, res){
 
 async function getUserById(req, res){
     //const userId = req.body
-    const userId = 1
+    // const userId = 1
     console.log(userId)
     const user = await queries.findUserById(userId)
     console.log(user)
