@@ -15,9 +15,18 @@ async function getUserList(req, res){
     console.log(list)
     res.redirect("/")
 }
+
+async function deleteBookFromList(req, res){
+    const bookData = req.body.title
+    const listData = req.body.name
+    await queries.removeBookFromList(bookData,listData)
+    res.redirect("/")
+}
+
 module.exports = {
     createNewList,
-    getUserList
+    getUserList,
+    deleteBookFromList
 }
 
 
