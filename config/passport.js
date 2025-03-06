@@ -2,8 +2,6 @@ const LocalStrategy = require('passport-local').Strategy;
 const queries = require('../queries')
 const passport = require('passport')
 
-const jwt = require('jsonwebtoken')
-
 
 passport.use(
     new LocalStrategy(async (username, password, done) => {
@@ -24,10 +22,9 @@ passport.use(
     })
 );
   
-  passport.serializeUser((user, done) => {
-    
-    done(null, user.id);
-  });
+passport.serializeUser((user, done) => {
+  done(null, user.id);
+});
   
   passport.deserializeUser(async (id, done) => {
     try {

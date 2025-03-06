@@ -1,4 +1,4 @@
-const queries = require("../queries")
+const queries = require("../queries.js")
 
 async function addBookToList(req,res){
     const bookDetails = req.body

@@ -8,6 +8,7 @@ async function getUsers(){
 }
 
 async function getUserByUsername(username){
+    
     const user = await prisma.users.findUnique({
         where: {
             username: username
@@ -16,7 +17,7 @@ async function getUserByUsername(username){
     return user
 }
 
-async function findUserById(id){
+async function getUserById(id){
     const user = await prisma.users.findUnique({
         where: {
             id: id
@@ -91,22 +92,41 @@ async function createBookEntry(bookDetails){
     
 }
 
-async function createList(listDetails){
+async function createList(listDetails, userId){
     const newList = await prisma.book_list.create({
         data:{
             name: listDetails.name,
-            list_owner_id: parseInt(listDetails.userId)
+            list_owner_id: parseInt(userId)
         }
     })
 }
-  
+
+async function getListById(listDetails, userId) {
+
+    const listBooks = await prisma.book_list.findUnique({
+        where: {
+            list_owner_id: userId,
+            name: listDetails.name
+        },
+        select: {
+            books: {
+                select: {
+                    title: true,
+                    book_id: true,
+                }
+            }
+        }
+    })
+    return listBooks
+}  
 
 module.exports = {
     getUsers,
     getUserByUsername,
-    findUserById,
+    getUserById,
     findBookByUser,
     createBookEntry,
     createList,
+    getListById
 }
 

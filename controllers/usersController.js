@@ -1,4 +1,4 @@
-const queries = require("../queries")
+const queries = require("../queries.js")
 
 async function getAllUsers(req,res){
     const usernames = await queries.getUsers()
