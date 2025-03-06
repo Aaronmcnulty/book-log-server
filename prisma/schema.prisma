@@ -31,7 +31,7 @@ model book {
   pages       Int
   lists       book_list[]
   user        users         @relation(fields: [user_id], references: [id])
-  user_id     Int           @unique
+  user_id     Int           
   cover_url   String        @unique
 }
  
@@ -40,5 +40,5 @@ model book_list {
   books           book[]
   name            String    @unique
   list_owner      users     @relation(fields: [list_owner_id], references: [id])
-  list_owner_id   Int       @unique
+  list_owner_id   Int       
 }

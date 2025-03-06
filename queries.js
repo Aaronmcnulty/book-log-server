@@ -27,37 +27,68 @@ async function findUserById(id){
 
 async function createBookEntry(bookDetails){
     const username = 1
-    const newBook = await prisma.book.create({
-        data: {
-          title: bookDetails.title,
-          author: bookDetails.author, 
-          year: parseInt(bookDetails.year),
-          description: bookDetails.description,
-          pages: parseInt(bookDetails.pages) ,
-          user_id: username, 
-          cover_url: bookDetails.coverUrl,
-          lists: {
-            connectOrCreate: {
-              where: {
-                name: 'read_books',
-                list_owner_id: 1,
-              },
-              create: {
-                name: 'read_books',
-                list_owner_id: 1,
-              },
-            },
-          },
+    const usersBook = await prisma.book.findUnique({
+        where: {
+            title: bookDetails.title,
+            user_id: username
         }
     })
+
+    if(!usersBook){
+        const newBook = await prisma.book.create({ 
+            data: {
+              title: bookDetails.title,
+              author: bookDetails.author, 
+              year: parseInt(bookDetails.year),
+              description: bookDetails.description,
+              pages: parseInt(bookDetails.pages) ,
+             
+              user_id: username, 
+              cover_url: bookDetails.coverUrl,
+              lists: {
+                connectOrCreate: {
+                  where: {
+                    name: 'read_books',
+                    list_owner_id: 1,
+                  },
+                  create: {
+                    name: 'read_books',
+                    list_owner_id: 1,
+                  },
+                },
+              },
+            }
+        })
+    } else {
+        const addBook = await prisma.book.update({
+            where: {
+                title: bookDetails.title,
+                user_id: username
+            },
+            data:{
+                lists: {
+                    connectOrCreate: {
+                      where: {
+                        name: 'read_books',
+                        list_owner_id: username,
+                      },
+                      create: {
+                        name: 'read_books',
+                        list_owner_id: username,
+                      },
+                    },
+                  },
+            }
+        })  
+    }
+    
 }
 
 async function createList(listDetails){
-    const username = 1
     const newList = await prisma.book_list.create({
         data:{
             name: listDetails.name,
-            list_owner_id: username
+            list_owner_id: parseInt(listDetails.userId)
         }
     })
 }

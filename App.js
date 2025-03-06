@@ -3,6 +3,7 @@ const app = express();
 const bodyParser = require('body-parser')
 const usersRouter = require("./routes/usersRouter")
 const booksRouter = require("./routes/booksRouter")
+const bookListRouter = require("./routes/bookListRouter")
 const session = require('express-session');
 const passport = require('passport')
 const jwt = require('jsonwebtoken')
@@ -28,6 +29,7 @@ app.get('/login-success', (req, res) => {
 app.get("/", (req, res) => res.send("Hello, world!"));
 app.use('/users', usersRouter)
 app.use('/books', booksRouter)
+app.use('/book-list', bookListRouter)
 
 
 app.post('/post', verifyToken,(req, res) => {
