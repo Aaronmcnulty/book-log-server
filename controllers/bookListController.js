@@ -5,7 +5,7 @@ async function createNewList(req,res){
     // const userId = req.user.id
     const listDetails = req.body
     await queries.createList(listDetails)
-    res.redirect("/")
+    res.send("Aye")
 }
 
 async function getUserList(req, res){
