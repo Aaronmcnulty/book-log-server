@@ -1,6 +1,7 @@
 const express = require("express");
 const app = express();
 const bodyParser = require('body-parser')
+const indexRouter = require("./routes/indexRouter")
 const usersRouter = require("./routes/usersRouter")
 const booksRouter = require("./routes/booksRouter")
 const bookListRouter = require("./routes/bookListRouter")
@@ -26,7 +27,8 @@ app.get('/login-success', (req, res) => {
   })
 })
 
-app.get("/", (req, res) => res.send("Hello, world!"));
+
+app.use('/', indexRouter)
 app.use('/users', usersRouter)
 app.use('/books', booksRouter)
 app.use('/book-list', bookListRouter)

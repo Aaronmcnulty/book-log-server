@@ -126,7 +126,6 @@ async function removeBookFromList(bookDetails, listDetails){
         }
 
     })
-    console.log(book)
     await prisma.book_list.update({
         where:{
             name: listDetails, 
@@ -142,7 +141,6 @@ async function removeBookFromList(bookDetails, listDetails){
     })
 
 }
-
 
 async function getListById(listDetails) {
     const userId = 1
