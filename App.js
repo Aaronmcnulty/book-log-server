@@ -8,10 +8,10 @@ const bookListRouter = require("./routes/bookListRouter")
 const session = require('express-session');
 const passport = require('passport')
 const jwt = require('jsonwebtoken')
-
+const cors = require('cors');
 require('./config/passport') 
 
-
+app.use(cors());  
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
