@@ -3,7 +3,7 @@ const queries = require("../queries.js")
 async function getAllUsers(req,res){
     const usernames = await queries.getUsers()
     console.log(usernames)
-    res.redirect("/")
+    res.send(usernames)
 }
 
 async function getuserByUsername(req, res){
