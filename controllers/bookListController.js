@@ -4,7 +4,7 @@ const queries = require("../queries.js")
 async function createNewList(req,res){
     // const userId = req.user.id
     const listDetails = req.body
-    await queries.createList(listDetails, userId)
+    await queries.createList(listDetails)
     res.redirect("/")
 }
 
