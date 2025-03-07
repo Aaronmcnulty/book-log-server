@@ -11,7 +11,7 @@ async function getuserByUsername(req, res){
     console.log(username)
     const user = await queries.getUserByUsername(username)
     console.log(user) 
-    res.redirect("/")
+    res.send(user)
 }
 
 async function getUserById(req, res){
