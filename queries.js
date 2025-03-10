@@ -152,11 +152,19 @@ async function getListById(listDetails) {
         select: {
             books: 
                 true
-            
         }
     })
     return listBooks
 }  
+
+async function createNewUser(username, password){
+        await prisma.users.create({
+            data:{
+                username: username,
+                password: password
+            },
+        })
+}
 
 module.exports = {
     getUsers,
@@ -167,6 +175,7 @@ module.exports = {
     createList,
     getListById,
     updateSingleBook,
-    removeBookFromList
+    removeBookFromList,
+    createNewUser
 }
 

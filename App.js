@@ -48,6 +48,7 @@ app.post('/post', verifyToken,(req, res) => {
   })
 })
 
+
 app.post('/log-in', function (req, res, next) {
   passport.authenticate('local', function (err, user, info) {
     if (err) { return next(err); }

@@ -1,4 +1,15 @@
 const queries = require("../queries.js")
+const asyncHandler = require("express-async-handler");
+const bcrypt = require("bcryptjs");
+
+
+const userSignUp = asyncHandler(async(req, res, next) => {
+        const username = req.body.username
+        const password = await bcrypt.hash(req.body.password, 10);
+
+        const user = await queries.createNewUser(username, password )
+        res.send('cool')
+})
 
 async function getAllUsers(req,res){
     const usernames = await queries.getUsers()
@@ -11,11 +22,11 @@ async function getuserByUsername(req, res){
     console.log(username)
     const user = await queries.getUserByUsername(username)
     console.log(user) 
-    res.send(user)
+    res.send(user) 
 }
 
 async function getUserById(req, res){
-    //const userId = req.body
+    //const userId = req.body 
     // const userId = 1
     console.log(userId)
     const user = await queries.findUserById(userId)
@@ -26,5 +37,6 @@ async function getUserById(req, res){
 module.exports = {
     getAllUsers,
     getuserByUsername,
-    getUserById
+    getUserById,
+    userSignUp
 }
