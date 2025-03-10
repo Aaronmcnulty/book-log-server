@@ -20,12 +20,12 @@ app.use(passport.initialize());
 app.use(session({ secret: "cats", resave: false, saveUninitialized: false }));
 app.use(passport.session());
 app.use(express.urlencoded({ extended: true }));
-// app.get('/login-success', (req, res) => {
-//   const user = req.user.username
-//   jwt.sign({ user }, 'secretKey', (err, token) => {
-//     res.json({ token })
-//   })
-// })
+app.get('/login-success', (req, res) => {
+  const user = req.user.username
+  jwt.sign({ user }, 'secretKey', (err, token) => {
+    res.json({ token })
+  })
+})
 
 
 app.use('/', indexRouter)
@@ -39,7 +39,7 @@ app.post('/post', verifyToken,(req, res) => {
     if (err) {
       res.sendStatus(403)
     } else {
-      res.json(
+      res.json( 
         {
           message: 'Posty',
           authdata
@@ -49,23 +49,19 @@ app.post('/post', verifyToken,(req, res) => {
 })
 
 app.post(
-  "/log-in", (req,res) => {
+  "/log-in",
     passport.authenticate("local", {
-      successRedirect: "/",
+      successRedirect: "/login-success",
       failureRedirect: "/"
     })
-    const user = req.user
-    jwt.sign({ user }, 'secretKey', (err, token) => {
-    res.json({ token })
-  })
-  });
+ );
   
   app.get("/log-out", (req, res, next) => {
     req.logout((err) => {
       if (err) {
         return next(err);
       }
-      res.sendStatus();
+      res.redirect("/");
     });
   });
 
