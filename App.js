@@ -59,7 +59,15 @@ app.post(
     res.json({ token })
   })
   });
-
+  
+  app.get("/log-out", (req, res, next) => {
+    req.logout((err) => {
+      if (err) {
+        return next(err);
+      }
+      res.sendStatus();
+    });
+  });
 
 function verifyToken (req, res, next) {
   const bearerHeader = req.headers['authorization']
