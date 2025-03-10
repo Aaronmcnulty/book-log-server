@@ -20,12 +20,12 @@ app.use(passport.initialize());
 app.use(session({ secret: "cats", resave: false, saveUninitialized: false }));
 app.use(passport.session());
 app.use(express.urlencoded({ extended: true }));
-app.get('/login-success', (req, res) => {
-  const user = req.user.username
-  jwt.sign({ user }, 'secretKey', (err, token) => {
-    res.json({ token })
-  })
-})
+// app.get('/login-success', (req, res) => {
+//   const user = req.user.username
+//   jwt.sign({ user }, 'secretKey', (err, token) => {
+//     res.json({ token })
+//   })
+// })
 
 
 app.use('/', indexRouter)
@@ -48,14 +48,20 @@ app.post('/post', verifyToken,(req, res) => {
   })
 })
 
-app.post(
-  "/log-in",
-    passport.authenticate("local", {
-      successRedirect: "/login-success",
-      failureRedirect: "/"
+app.post('/log-in', function (req, res, next) {
+  passport.authenticate('local', function (err, user, info) {
+    if (err) { return next(err); }
+    if (!user) { return res.redirect('/'); }
+    
+    // NEED TO CALL req.login()!!!
+    req.login(user, next);
+    
+    jwt.sign({ user }, 'secretKey', (err, token) => {
+      res.json({ token })
     })
- );
-  
+})(req, res, next);
+});
+ 
   app.get("/log-out", (req, res, next) => {
     req.logout((err) => {
       if (err) {
