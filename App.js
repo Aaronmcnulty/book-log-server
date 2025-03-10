@@ -20,12 +20,12 @@ app.use(passport.initialize());
 app.use(session({ secret: "cats", resave: false, saveUninitialized: false }));
 app.use(passport.session());
 app.use(express.urlencoded({ extended: true }));
-app.get('/login-success', (req, res) => {
-  const user = req.user.username
-  jwt.sign({ user }, 'secretKey', (err, token) => {
-    res.json({ token })
-  })
-})
+// app.get('/login-success', (req, res) => {
+//   const user = req.user.username
+//   jwt.sign({ user }, 'secretKey', (err, token) => {
+//     res.json({ token })
+//   })
+// })
 
 
 app.use('/', indexRouter)
@@ -49,12 +49,16 @@ app.post('/post', verifyToken,(req, res) => {
 })
 
 app.post(
-  "/log-in",
-  passport.authenticate("local", {
-    successRedirect: "/login-success",
-    failureRedirect: "/"
+  "/log-in", (req,res) => {
+    passport.authenticate("local", {
+      successRedirect: "/",
+      failureRedirect: "/"
+    })
+    const user = req.user
+    jwt.sign({ user }, 'secretKey', (err, token) => {
+    res.json({ token })
   })
-);
+  });
 
 
 function verifyToken (req, res, next) {
