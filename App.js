@@ -56,9 +56,9 @@ app.post('/log-in', function (req, res, next) {
     
     // NEED TO CALL req.login()!!!
     req.login(user, next);
-    
+    const userDetails = {username: user.username, userId: user.id}
     jwt.sign({ user }, 'secretKey', (err, token) => {
-      res.json({ token })
+      res.json({userDetails, token })
     })
 })(req, res, next);
 });
