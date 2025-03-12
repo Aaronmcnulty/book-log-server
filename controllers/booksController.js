@@ -9,7 +9,7 @@ async function addBookToList(req,res){
 async function findUsersBook(req,res){
     const bookDetails = req.body
     await queries.findBookByUser(bookDetails)
-    res.redirect("/")
+    res.json(bookDetails)
 }
 
 async function updateBookDetails(req,res){

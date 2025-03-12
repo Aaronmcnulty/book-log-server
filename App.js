@@ -10,7 +10,6 @@ const passport = require('passport')
 const jwt = require('jsonwebtoken')
 const cors = require('cors');
 require('./config/passport') 
-
 app.use(cors());  
 
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -30,19 +29,18 @@ app.use(express.urlencoded({ extended: true }));
 
 app.use('/', indexRouter)
 app.use('/users', usersRouter)
-app.use('/books', booksRouter)
+app.use('/books',booksRouter)
 app.use('/book-list', bookListRouter)
 
 
 app.post('/post', verifyToken,(req, res) => {
-  jwt.verify(req.token, 'secretKey',  {expiresIn: '2h'}, (err, authdata) => {
+  jwt.verify(req.token, 'secretKey',(err, authdata) => {
     if (err) {
       res.sendStatus(403)
     } else {
       res.json( 
         {
           message: 'Posty',
-          authdata
         })
     }
   })
@@ -57,7 +55,7 @@ app.post('/log-in', function (req, res, next) {
     // NEED TO CALL req.login()!!!
     req.login(user, next);
     const userDetails = {username: user.username, userId: user.id}
-    jwt.sign({ user }, 'secretKey', (err, token) => {
+    jwt.sign({ user }, 'secretKey',  {expiresIn: '1h'}, (err, token) => {
       res.json({userDetails, token })
     })
 })(req, res, next);
@@ -65,25 +63,27 @@ app.post('/log-in', function (req, res, next) {
  
   app.get("/log-out", (req, res, next) => {
     req.logout((err) => {
+      const t = req.user
       if (err) {
         return next(err);
       }
-      res.redirect("/");
+      res.json(t);
     });
   });
 
-function verifyToken (req, res, next) {
-  const bearerHeader = req.headers['authorization']
-  if(typeof bearerHeader !== 'undefined'){
-    const bearer = bearerHeader.split(' ')
-
-    const bearerToken = bearer[1]
-    req.token = bearerToken
-    next()
-  } else {
-    res.sendStatus(403)
+  function verifyToken (req, res, next) {
+    const bearerHeader = req.headers['authorization']
+    if(typeof bearerHeader !== 'undefined'){
+      const bearer = bearerHeader.split(' ')
+  
+      const bearerToken = bearer[1]
+      req.token = bearerToken
+      next()
+    } else {
+      res.sendStatus(403)
+    }
   }
-}
+
 
 const PORT = 3000;
 app.listen(PORT, () => {
