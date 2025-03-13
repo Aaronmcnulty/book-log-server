@@ -5,7 +5,7 @@ const bookListRouter = Router()
 const cors = require('cors');
 
 bookListRouter.post('/create-list', verifyToken, bookListController.createNewList)
-bookListRouter.get('/get-list', verifyToken,  bookListController.getUserList)
+bookListRouter.post('/get-list', verifyToken,  bookListController.getUserList)
 bookListRouter.post('/remove-book', bookListController.deleteBookFromList)
 
 

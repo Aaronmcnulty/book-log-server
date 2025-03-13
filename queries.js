@@ -142,6 +142,7 @@ async function removeBookFromList(bookDetails, listDetails){
 
 async function getListById(listDetails, userDetails) {
     const userId = userDetails.id
+    console.log(listDetails)
     const listBooks = await prisma.book_list.findUnique({
         where: {
             list_owner_id: userId,
