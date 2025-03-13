@@ -7,7 +7,7 @@ const cors = require('cors');
 bookListRouter.post('/create-list', verifyToken, bookListController.createNewList)
 bookListRouter.post('/get-list', verifyToken,  bookListController.getUserList)
 bookListRouter.post('/remove-book', bookListController.deleteBookFromList)
-
+bookListRouter.post('/get-user-lists', verifyToken, bookListController.getUserLists)
 
 function verifyToken (req, res, next) {
     const bearerHeader = req.headers['authorization']

@@ -156,6 +156,16 @@ async function getListById(listDetails, userDetails) {
     return listBooks
 }  
 
+async function getListsById(userDetails){
+    const userId = userDetails.id
+    const userLists = await prisma.book_list.findMany({
+        where:{
+            list_owner_id: userId,
+        }
+    })
+    return userLists
+}
+
 async function createNewUser(username, password){
         await prisma.users.create({
             data:{
@@ -172,9 +182,10 @@ module.exports = {
     findBookByUser,
     addBookToList,
     createList,
+    getListsById,
     getListById,
     updateSingleBook,
     removeBookFromList,
-    createNewUser
+    createNewUser,
 }
 

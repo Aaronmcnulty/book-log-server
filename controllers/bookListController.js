@@ -32,6 +32,19 @@ async function getUserList(req, res){
     res.json(list)
 }
 
+async function getUserLists(req, res){
+  let userDetails = {}
+  jwt.verify(req.token, 'secretKey',(err, authdata) => {
+    if (err) {
+        res.sendStatus(403)
+    } else { 
+        userDetails = {username: authdata.user.username, id: authdata.user.id}
+    }
+  })
+  const userLists = await queries.getListsById(userDetails)
+  res.json(userLists)
+}
+
 async function deleteBookFromList(req, res){
     const bookData = req.body.title
     const listData = req.body.name
@@ -42,6 +55,7 @@ async function deleteBookFromList(req, res){
 module.exports = {
     createNewList,
     getUserList,
+    getUserLists,
     deleteBookFromList
 }
 
