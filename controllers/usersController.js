@@ -6,7 +6,6 @@ const bcrypt = require("bcryptjs");
 const userSignUp = asyncHandler(async(req, res, next) => {
         const username = req.body.username
         const password = await bcrypt.hash(req.body.password, 10);
-
         const user = await queries.createNewUser(username, password )
         res.send('cool')
 })

@@ -1,19 +1,35 @@
-
+const jwt = require('jsonwebtoken')
 const queries = require("../queries.js")
 
-async function createNewList(req,res){
-    // const userId = req.user.id
+
+
+async function createNewList(req, res){
     const listDetails = req.body
-    await queries.createList(listDetails)
-    res.send("Aye")
-}
+    let userDetails = {}
+    jwt.verify(req.token, 'secretKey',(err, authdata) => {
+      if (err) {
+        res.sendStatus(403)
+      } else {
+        userDetails = {username: authdata.user.username, id: authdata.user.id}
+      }
+    })
+    queries.createList(listDetails, userDetails)
+    res.sendStatus(200)
+  }
+
 
 async function getUserList(req, res){
-    // const userId = req.user.id
     const listDetails = req.body
-    const list = await queries.getListById(listDetails)
-    console.log(list)
-    res.redirect("/")
+    let userDetails = {}
+    jwt.verify(req.token, 'secretKey',(err, authdata) => {
+        if (err) {
+            res.sendStatus(403)
+        } else { 
+            userDetails = {username: authdata.user.username, id: authdata.user.id}
+        }
+    })
+    const list = await queries.getListById(listDetails,userDetails)
+    res.json(list)
 }
 
 async function deleteBookFromList(req, res){

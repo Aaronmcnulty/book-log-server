@@ -2,7 +2,21 @@ const {Router} = require("express")
 const bookListController = require("../controllers/bookListController")
 const bookListRouter = Router()
 
-bookListRouter.post('/create-list', bookListController.createNewList)
-bookListRouter.get('/get-list', bookListController.getUserList)
+bookListRouter.post('/create-list', verifyToken, bookListController.createNewList)
+bookListRouter.get('/get-list', verifyToken,  bookListController.getUserList)
 bookListRouter.post('/remove-book', bookListController.deleteBookFromList)
+
+
+function verifyToken (req, res, next) {
+    const bearerHeader = req.headers['authorization']
+    if(typeof bearerHeader !== 'undefined'){
+      const bearer = bearerHeader.split(' ')
+      const bearerToken = bearer[1]
+      req.token = bearerToken
+      next()
+    } else {
+      res.sendStatus(403)
+    }
+  }
+
 module.exports = bookListRouter; 

@@ -43,20 +43,19 @@ async function updateSingleBook(bookDetails, currentTitle){
     })
 }
 
-async function findBookByUser(bookDetails){
-    const username = 1
+async function findBookByUser(bookDetails, userDetails){
+    const userId = userDetails.id
     const usersBook = await prisma.book.findUnique({
         where: {
             title: bookDetails.title,
-            user_id: 1
+            user_id: userId
         }
     })
-    console.log(usersBook)
     return usersBook
 }
 
-async function createList(listDetails){
-    const userId = 1
+async function createList(listDetails, userDetails){
+    const userId = userDetails.id
     const newList = await prisma.book_list.create({
         data:{
             name: listDetails.name,
@@ -65,9 +64,9 @@ async function createList(listDetails){
     })
 }
 
-async function addBookToList(bookDetails){
-    const username = 1
-    const booko = await findBookByUser(bookDetails)
+async function addBookToList(bookDetails, userDetails){
+    const userId = userDetails.id
+    const booko = await findBookByUser(bookDetails, userDetails)
     console.log(booko)
     if(!booko){
         const newBook = await prisma.book.create({ 
@@ -77,18 +76,17 @@ async function addBookToList(bookDetails){
               year: parseInt(bookDetails.year),
               description: bookDetails.description,
               pages: parseInt(bookDetails.pages) ,
-             
-              user_id: username, 
+              user_id: userId, 
               cover_url: bookDetails.coverUrl,
               lists: {
                 connectOrCreate: {
                   where: {
-                    name: 'read_books',
-                    list_owner_id: 1,
+                    name: bookDetails.list,
+                    list_owner_id: userId,
                   },
                   create: {
-                    name: 'read_books',
-                    list_owner_id: 1,
+                    name: bookDetails.list,
+                    list_owner_id: userId,
                   },
                 },
               },
@@ -98,18 +96,18 @@ async function addBookToList(bookDetails){
         const addBook = await prisma.book.update({
             where: {
                 title: bookDetails.title,
-                user_id: username
+                user_id: userId
             },
             data:{
                 lists: {
                     connectOrCreate: {
                       where: {
-                        name: 'read_books',
-                        list_owner_id: username,
+                        name: bookDetails.list,
+                        list_owner_id: userId,
                       },
                       create: {
-                        name: 'read_books',
-                        list_owner_id: username,
+                        name: bookDetails.list,
+                        list_owner_id: userId,
                       },
                     },
                   },
@@ -142,8 +140,8 @@ async function removeBookFromList(bookDetails, listDetails){
 
 }
 
-async function getListById(listDetails) {
-    const userId = 1
+async function getListById(listDetails, userDetails) {
+    const userId = userDetails.id
     const listBooks = await prisma.book_list.findUnique({
         where: {
             list_owner_id: userId,
