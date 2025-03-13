@@ -2,6 +2,8 @@ const {Router} = require("express")
 const booksController = require("../controllers/booksController")
 const booksRouter = Router()
 
+const cors = require('cors');
+
 booksRouter.post("/add-to-list", verifyToken, booksController.addBookToList)
 booksRouter.get("/get-users-book", verifyToken, booksController.findUsersBook)
 booksRouter.post("/:currenttitle/update-book", booksController.updateBookDetails)

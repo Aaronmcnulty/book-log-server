@@ -2,6 +2,8 @@ const {Router} = require("express")
 const bookListController = require("../controllers/bookListController")
 const bookListRouter = Router()
 
+const cors = require('cors');
+
 bookListRouter.post('/create-list', verifyToken, bookListController.createNewList)
 bookListRouter.get('/get-list', verifyToken,  bookListController.getUserList)
 bookListRouter.post('/remove-book', bookListController.deleteBookFromList)
