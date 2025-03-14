@@ -66,6 +66,7 @@ async function createList(listDetails, userDetails){
 
 async function addBookToList(bookDetails, userDetails){
     const userId = userDetails.id
+    const user = userDetails.id
     const booko = await findBookByUser(bookDetails, userDetails)
     console.log(booko)
     if(!booko){
