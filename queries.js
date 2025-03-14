@@ -94,7 +94,7 @@ async function addBookToList(bookDetails, userDetails){
             }
         })
     } else {
-        const addBook = await prisma.book.update({
+        await prisma.book.update({
             where: {
                 title: bookDetails.title,
                 user_id: userId
