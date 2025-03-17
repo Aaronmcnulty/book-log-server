@@ -147,7 +147,7 @@ async function getListById(listDetails, userDetails) {
     const listBooks = await prisma.book_list.findUnique({
         where: {
             list_owner_id: userId,
-            name: listDetails.name
+            id: listDetails.id
         },
         select: {
             books: 
