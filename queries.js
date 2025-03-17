@@ -82,11 +82,11 @@ async function addBookToList(bookDetails, userDetails){
               lists: {
                 connectOrCreate: {
                   where: {
-                    id: bookDetails.id,
+                    id: bookDetails.listId,
                     list_owner_id: userId,
                   },
                   create: {
-                    id: bookDetails.id,
+                    id: bookDetails.listId,
                     list_owner_id: userId,
                   },
                 },
@@ -103,11 +103,11 @@ async function addBookToList(bookDetails, userDetails){
                 lists: {
                     connectOrCreate: {
                       where: {
-                        id: bookDetails.id,
+                        id: bookDetails.listId,
                         list_owner_id: userId,
                       },
                       create: {
-                        id: bookDetails.id,
+                        id: bookDetails.listId,
                         list_owner_id: userId,
                       },
                     },
