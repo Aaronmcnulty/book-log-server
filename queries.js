@@ -159,7 +159,14 @@ async function createNewUser(username, password){
         await prisma.users.create({
             data:{
                 username: username,
-                password: password
+                password: password,
+                lists:{
+                    create: [
+                        { name: 'Read Books'},
+                        { name: 'Owned Books'},
+                        { name: 'Wish List'}
+                ]
+                }
             },
         })
 }
