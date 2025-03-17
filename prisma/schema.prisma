@@ -38,7 +38,7 @@ model book {
 model book_list {
   id              Int       @id @default(autoincrement())
   books           book[]
-  name            String    @unique
+  name            String    
   list_owner      users     @relation(fields: [list_owner_id], references: [id])
   list_owner_id   Int       
 }
